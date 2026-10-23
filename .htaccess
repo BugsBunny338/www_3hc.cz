@@ -1,6 +1,17 @@
+# Presmerovani na https://www.3hc.cz (Station.cz, openresty proxy pred Apache).
+# %{HTTPS} kontroluje i hlavicka X-Forwarded-Proto (jinak hrozi smycka).
 RewriteEngine On
-RewriteCond %{HTTP_HOST} !=localhost
-RewriteCond %{HTTP_HOST} !=""
-RewriteCond %{HTTP_HOST} !^www\. [NC]
-RewriteCond %{HTTPS}s ^on(s)|
-RewriteRule ^ http%1://www.%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+# 3hcadvisorygroup.cz (pokud je alias na tomto hostingu) -> 3hc.cz
+RewriteCond %{HTTP_HOST} (^|\.)3hcadvisorygroup\.cz$ [NC]
+RewriteRule ^ https://www.3hc.cz/ [L,R=301]
+
+# bez www -> https://www
+RewriteCond %{HTTP_HOST} ^3hc\.cz$ [NC]
+RewriteRule ^ https://www.3hc.cz%{REQUEST_URI} [L,R=301]
+
+# http -> https
+RewriteCond %{HTTP_HOST} ^www\.3hc\.cz$ [NC]
+RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+RewriteRule ^ https://www.3hc.cz%{REQUEST_URI} [L,R=301]
