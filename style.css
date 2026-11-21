@@ -177,9 +177,10 @@ section h2 {
 }
 
 /* Crests, textured marks and app icons lose their detail as a silhouette: grey them instead. */
+/* --grey on the img overrides the treatment per logo (app icons need their glyph kept). */
 .ref.tone img {
-    filter: grayscale(1) brightness(1.5);
-    opacity: 0.6;
+    filter: var(--grey, grayscale(1) brightness(1.5));
+    opacity: 0.7;
 }
 
 .ref.word {
