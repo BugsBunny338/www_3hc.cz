@@ -1,19 +1,12 @@
-/* Work Sans 100 + 300, self-hosted (SIL OFL, fonts/OFL.txt) — no Google Fonts request. */
+/* Work Sans, self-hosted (SIL OFL, fonts/OFL.txt) — no Google Fonts request.
+   Weight 100 only draws "3HC", so it is subset to those three glyphs (~2 KB). */
 @font-face {
     font-family: 'Work Sans';
     font-style: normal;
     font-weight: 100;
     font-display: swap;
-    src: url('./fonts/work-sans-latin-100.woff2') format('woff2');
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-    font-family: 'Work Sans';
-    font-style: normal;
-    font-weight: 100;
-    font-display: swap;
-    src: url('./fonts/work-sans-latin-ext-100.woff2') format('woff2');
-    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+    src: url('./fonts/work-sans-3hc-100.woff2') format('woff2');
+    unicode-range: U+0033, U+0043, U+0048;
 }
 @font-face {
     font-family: 'Work Sans';
@@ -155,31 +148,38 @@ section h2 {
     display: none;
 }
 
-/* References: light-grey silhouettes, full colour on hover / keyboard focus. */
+/* References: light-grey by default, full colour on hover / keyboard focus.
+   Each logo is sized by its shape (wide ones shorter, square ones taller, --h on the img)
+   and all share one gap, so they read as equal weight. */
 .ref {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     vertical-align: middle;
-    margin: 0 15px;
     height: 50px;
-    width: 100px;
+    margin: 0 20px;
     text-decoration: none;
+    outline: none; /* focus shows as the colour change below */
 }
 
 .ref img {
-    width: 100px;
-    height: 50px;
-    object-fit: contain;
+    height: var(--h, 40px);
+    width: auto;
     filter: brightness(0) invert(1);
     opacity: 0.6;
     transition: filter 0.2s, opacity 0.2s;
 }
 
+/* ZajicovaLegal's ears: keep the triangles, in light greys. */
+.ref.tone-light img {
+    filter: grayscale(1) brightness(2.6) contrast(0.85);
+    opacity: 0.75;
+}
+
 /* Crests, textured marks and app icons lose their detail as a silhouette: grey them instead. */
 .ref.tone img {
-    filter: grayscale(1);
-    opacity: 0.5;
+    filter: grayscale(1) brightness(1.5);
+    opacity: 0.6;
 }
 
 .ref.word {
@@ -199,7 +199,30 @@ a.ref:hover img, a.ref:focus-visible img {
     color: white;
 }
 
-a.ref:focus-visible {
-    outline: 1px solid rgba(255, 255, 255, 0.6);
-    outline-offset: 4px;
+
+/* Phones: wrap the references into centred rows instead of a strip you'd have to swipe. */
+@media (max-width: 700px) {
+    section {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 18px 30px;
+        padding: 40px 16px 48px;
+        overflow: visible;
+        white-space: normal;
+    }
+
+    .ref {
+        margin: 0;
+        height: 44px;
+    }
+
+    .ref img {
+        height: calc(var(--h, 40px) * 0.85);
+    }
+
+    .ref.word {
+        font-size: 15px;
+    }
 }
