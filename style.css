@@ -170,6 +170,26 @@ section h2 {
     transition: filter 0.2s, opacity 0.2s;
 }
 
+/* App icons: a hand-toned grey version (keeps the glyph; filters flattened it),
+   cross-fading to the colour icon on hover / keyboard focus. */
+.ref.duo {
+    position: relative;
+}
+
+.ref.duo img {
+    filter: none;
+    opacity: 0.8;
+}
+
+.ref.duo img.c {
+    position: absolute;
+    opacity: 0;
+}
+
+a.ref.duo:hover img.c, a.ref.duo:focus-visible img.c {
+    opacity: 1;
+}
+
 /* ZajicovaLegal's ears: keep the triangles, in light greys. */
 .ref.tone-light img {
     filter: grayscale(1) brightness(2.6) contrast(0.85);
@@ -177,9 +197,8 @@ section h2 {
 }
 
 /* Crests, textured marks and app icons lose their detail as a silhouette: grey them instead. */
-/* --grey on the img overrides the treatment per logo (app icons need their glyph kept). */
 .ref.tone img {
-    filter: var(--grey, grayscale(1) brightness(1.5));
+    filter: grayscale(1) brightness(1.5);
     opacity: 0.7;
 }
 
