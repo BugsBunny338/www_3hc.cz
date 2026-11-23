@@ -170,19 +170,37 @@ section h2 {
     transition: filter 0.2s, opacity 0.2s;
 }
 
-/* App icons: a hand-toned grey version (keeps the glyph; filters flattened it),
-   cross-fading to the colour icon on hover / keyboard focus. */
+/* Grey/colour pairs (Calyx, Pekab, Hotel Hajčman, the app icons): a prepared grey image with
+   the colour image on top, fading in on hover / keyboard focus. A filter can't do this
+   smoothly: brightness(0) invert(1) -> none passes through a flat mid-grey halfway. */
 .ref.duo {
     position: relative;
 }
 
+/* Only the colour layer fades; the grey layer stays put underneath. Both stay on
+   their own compositing layer, so the browser doesn't re-render (and "snap") at
+   the end of the fade. */
 .ref.duo img {
+    filter: none;
+    opacity: 0.8;
+    transition: none;
+    will-change: opacity;
+}
+
+/* keep the grey layer at 0.8 on hover too (the generic hover rule would lift it to 1) */
+a.ref.duo:hover img, a.ref.duo:focus-visible img {
     filter: none;
     opacity: 0.8;
 }
 
-.ref.duo img.c {
+.ref.duo img.c,
+a.ref.duo:hover img.c,
+a.ref.duo:focus-visible img.c {
     position: absolute;
+    transition: opacity 0.25s ease;
+}
+
+.ref.duo img.c {
     opacity: 0;
 }
 
